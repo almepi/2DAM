@@ -17,11 +17,18 @@ public class Ejercicio3 {
         
         Scanner sc = new Scanner(System.in);
         
-        System.out.println("Introduzca un número:");
+        System.out.println("Introduzca un número mayor que 0:");
+        
+        
         
         int Numero = sc.nextInt();
         
-        for(int i=1;i<Numero;i++){
+        while(Numero<=0){
+            System.out.println("Numero introducido no válido,introduzca otro número:");
+            Numero = sc.nextInt();
+        }
+        
+        for(int i=1;i<=Numero;i++){
             if(Numero%i==0){
                 System.out.println(i);
                 

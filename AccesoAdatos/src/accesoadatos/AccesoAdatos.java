@@ -27,7 +27,7 @@ public class AccesoAdatos {
         String especial="";
         double Tasa;
         
-        System.out.println("¿Es usted un conductor especial? Responda SI o NO.\n"
+        System.out.println("¿Forma parte usted del grupo de conductores especiales? Responda SI o NO.\n"
                 + "Se considerará conductor especial si pertenece a los siguientes campos:\n"
                 + "-Conductor de carga.\n"
                 + "-Vehículos especiales(transporte público, emergencias, etc.)\n"

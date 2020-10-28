@@ -26,23 +26,44 @@ public class Ejercicio4 {
             Numero = sc.nextInt();
         }
         
+        
         for(int i=0;i<=Numero;i++){
-            System.out.println(i);
-               
-            for(int j=0;j<=Numero;j=j+2){
-                
-                for(int k=0;k<=Numero;k=k+3){
-                    
-                    // System.out.println(i+"\t"+j+"\t"+k);
-                     
-                }
-            }
-           
-            
+            System.out.print(i);
             
         }
         
         
-    }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
-}
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            }
+          
+            
+            
+        
+        
+        
+    
+    
+
