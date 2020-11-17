@@ -17,5 +17,5 @@
             <version>8.0.19 </version>
         </dependency>  
     </dependencies>
-    <name>ManejoJDBC</name>
+    <name>ManejoJDBC_Trans</name>
 </project>

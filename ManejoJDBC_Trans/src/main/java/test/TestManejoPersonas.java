@@ -19,16 +19,16 @@ public class TestManejoPersonas {
     
     public static void main(String[] args) throws SQLException {
         PersonaDaO personaDaO = new PersonaDaO();
-        //List<Persona> personas = personaDaO.seleccionar();
+        List<Persona> personas = personaDaO.seleccionar();
         
-        //Persona personaNueva = new Persona("Carlos","Perez",54);
-        //Persona personaNueva2 = new Persona("Alejandro","Megias",28);
+        Persona personaNueva = new Persona("Carlos","Perez",54);
+        Persona personaNueva2 = new Persona("Alejandro","Megias",28);
         
-        //personas.add(personaNueva);
-        //personas.add(personaNueva2);
+        personas.add(personaNueva);
+        personas.add(personaNueva2);
         
-        //System.out.println(personaNueva.toString());
-        //System.out.println(personaNueva2.toString());
+        System.out.println(personaNueva.toString());
+        System.out.println(personaNueva2.toString());
                 
         
         
