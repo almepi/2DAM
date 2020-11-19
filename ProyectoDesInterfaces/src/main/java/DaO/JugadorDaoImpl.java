@@ -9,6 +9,7 @@ import Conexiones.Conexion;
 import Model.Jugador;
 import iDAO.IJugadorDao;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,36 +28,48 @@ public class JugadorDaoImpl implements IJugadorDao{
     public List<Jugador> obtener() {
         
         
-        Connection co = null;
-        Statement stm = null;
+        
+        List <Jugador> listaJugadores = new ArrayList<Jugador>();
+        String sql = "SELECT * FROM jugadoresespaña";
+        
+       
+        Connection conn = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        String sql = "SELECT * FROM jugadoresespaña";
-        List <Jugador> listaJugadores = new ArrayList<Jugador>();
+        
+        //Connection co = null;
+        //Statement stm = null;
+        //ResultSet rs = null;
+        
+        
+        
         
         try{
             
             //Abrimos conexion
-            co=Conexion.conectar();
-            stm=co.createStatement();
-            rs=stm.executeQuery(sql);
+            conn=Conexion.getConnection();
+            stmt=conn.prepareStatement(sql);
+            rs=stmt.executeQuery(sql);
             
+            Jugador j = null;
             
             //Añadimos jugadores a la lista.
             while(rs.next()){
-                Jugador j = new Jugador();
-                j.setId(rs.getInt(1));
-                j.setNombre(rs.getString(2));
-                j.setApellido(rs.getString(3));
-                j.setDNI(rs.getString(4));
-                j.setPosicion(rs.getString(5));
+                
+                int idJugador = rs.getInt("Id");
+                String nombre = rs.getString("Nombre");
+                String apellidos = rs.getString("Apellidos");
+                String DNI = rs.getString("DNI");
+                String posicion = rs.getString("Posicion");
+                j = new Jugador (idJugador,nombre,apellidos,DNI,posicion);
                 listaJugadores.add(j);
                 
             }
             //Cerramos Conexion con la base de datos.
-            stm.close();
+            stmt.close();
             rs.close();
-            co.close();
+            conn.close();
             
         }
         catch (SQLException e){
@@ -69,18 +82,32 @@ public class JugadorDaoImpl implements IJugadorDao{
                 
             //Devolvemos la lista de jugadores    
             return listaJugadores;
+        
+        
         }
         
-    
+        
+        
+    //Método para añdir un jugador a la base de datos
 
+    /**
+     *
+     * @param jugador
+     * @return
+     */
     @Override
     public boolean añadir(Jugador jugador) {
        
         //Creamos una variable para validar el registro.
         boolean registrar = false;
         
-        Statement stm = null;
-        Connection con = null;
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+       // Statement stm = null;
+       // Connection con = null;
         
         
         //Creamos la instruccion SQL almacenada en una variable.
@@ -89,13 +116,13 @@ public class JugadorDaoImpl implements IJugadorDao{
         
         //Ejecutamos la consulta
         try{
-            
-            con=Conexion.conectar();
-            stm=con.createStatement();
-            stm.execute(insertar);
+            System.out.println(insertar);
+            conn=Conexion.getConnection();
+            stmt=conn.prepareStatement(insertar);
+            stmt.execute(insertar);
             registrar = true;
-            stm.close();
-            con.close();
+            stmt.close();
+            conn.close();
             
         }
         
@@ -111,25 +138,80 @@ public class JugadorDaoImpl implements IJugadorDao{
         return registrar;
     }
 
+    
+    //Método para actualizar un jugador en la base de datos
     @Override
     public boolean actualizar(Jugador jugador) {
         
-        Conexion conn= null;
-        Statement stm = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         
         boolean actualizacion=false;
         
-        String sql ="UPDATE jugadoresespaña SET Nombre='"+jugador.getNombre()+"', Apellidos='"+jugador.getApellido()+"', DNI='"+jugador.getDNI()+"'"+"', Posicion='"+jugador.getPosicion() +" WHERE ID="+jugador.getId();
+        
+        //Sentencia sql a realizar
+        String actualizar ="UPDATE jugadoresespaña SET Nombre='"+jugador.getNombre()+"', Apellidos='"+jugador.getApellido()+"', DNI='"+jugador.getDNI()+"'"+"', Posicion='"+jugador.getPosicion() +" WHERE ID="+jugador.getId();
         
         
+        //abrimos conexion, ejecutamos y cerramos conexion
+        try{
+            conn=Conexion.getConnection();
+            stmt=conn.prepareStatement(actualizar);
+            stmt.execute(actualizar);
+            actualizacion = true;
+            stmt.close();
+            conn.close();
+            
+        }
         
+        //Capturamos si existe algun error en la orden
+        catch(SQLException e){
+            System.out.println("Error: Clase JugadorDaoImpl, método actualizar");
+            e.printStackTrace();
+        }
         
         return actualizacion;
     }
 
+    
+    //Método para eliminar un jugador de la base de datos
     @Override
     public boolean eliminar(Jugador jugador) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        
+        boolean eliminar = false;
+        
+        //Sentencia sql que queremos hacer
+        String borrar ="DELETE FROM jugadoresespaña WHERE ID= "+jugador.getId();
+    
+        
+        //Abrimos onexion, ejecutamos orden y cerramos conexion
+        try{
+            conn=Conexion.getConnection();
+            stmt=conn.prepareStatement(borrar);
+            stmt.execute(borrar);
+            eliminar = true;
+            stmt.close();
+            conn.close();
+            
+            
+        }
+        
+        //Capturamos cualquier error en el método
+        catch(SQLException e){
+            System.out.println("Error: clase JugadorDaoImpl, método eliminar");
+            e.printStackTrace();
+        }
+    
+    return eliminar;
+    
     }
     
     

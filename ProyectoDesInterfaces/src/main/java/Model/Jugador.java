@@ -33,7 +33,8 @@ public class Jugador {
     
     //Constructor parametrizado.
     
-    public Jugador(String Nombre,String Apellido,String DNI,String Posicion){
+    public Jugador(int id,String Nombre,String Apellido,String DNI,String Posicion){
+        this.id=id;
         this.Nombre=Nombre;
         this.Apellido=Apellido;
         this.DNI=DNI;
